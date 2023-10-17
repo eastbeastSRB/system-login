@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true
+    // "jsx": "react",
+    // "lib": ["ES6", "DOM"],
+    // "typeRoots": ["./types"],
+    // "types": ["node", "jest"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
