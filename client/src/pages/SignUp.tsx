@@ -1,27 +1,28 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function SignUp() {
     // const [users, setUsers] = useState([])
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
-    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
 
 
     const handleSubmit = (event: any) => {
-        console.log({ email, username, password })
+        console.log({ firstName, lastName, email, password })
         event.preventDefault();
         axios
-        .post('/users/v1', { email, username, password })
+        .post('/users/v1', { firstName, lastName, email, password })
         .then(() => {
             alert('Registration Successful')
+            setFirstName('')
+            setLastName('')
             setEmail('')
-            setUsername('')
             setPassword('')
-            // fetchUsers();
             navigate('/login')
         })
         .catch((error: AxiosError) => {
@@ -34,6 +35,26 @@ function SignUp() {
         <div className='w-[50%] h-[100%] bg-[#1a1a1a] text-white flex justify-center items-center'>
             <form className='text-center border rounded-lg w-[600px] h-[400px] p-9'
             onSubmit={handleSubmit}>
+                {/*FirstName Input */}
+                <label>First name</label>
+                <br />
+                <input className='w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2'
+                type='text'
+                placeholder='first name'
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)} />
+                <br />
+                <br />
+                {/*LastName Input */}
+                <label>Last name</label>
+                <br />
+                <input className='w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2'
+                type='text'
+                placeholder='last name'
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)} />
+                <br />
+                <br />
                 {/* Email Input */}
                 <label>Email</label>
                 <br />
@@ -44,18 +65,8 @@ function SignUp() {
                 onChange={(e) => setEmail(e.target.value)} />
                 <br />
                 <br />
-                 {/*Username Input */}
-                 <label>Username</label>
-                <br />
-                <input className='w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2'
-                type='text'
-                placeholder='Username'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)} />
-                <br />
-                <br />
-                 {/* Password Input */}
-                 <label>Password</label>
+                {/* Password Input */}
+                <label>Password</label>
                 <br />
                 <input className='w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2'
                 type='password'

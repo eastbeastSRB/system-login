@@ -1,20 +1,21 @@
-const express = require("express"),
-  PORT = 5000,
-  app = express();
+// require module
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-app.get("/users/v1", (req: any, res: any) => {
-  console.log('enter in get users')
-  res.send("hello user !!!!");
+// import module
+import express, { Express } from 'express';
+import config from 'config';
+import router from './routes';
+
+// Basic config
+const app: Express = express();
+app.use(express.json());
+app.use(router);
+
+const port = config.get('port');
+app.listen(port, () => {
+  console.log(`listening on port ${port}`);
+
+  //database connection
+  // dbConnect();
 });
-
-app.post('/users/v1', (req: any, res: any) => {
-  console.log('enter in post users')
-  try {
-    res.send("USER ADDED !!!!");
-  } catch (error: any) {
-    res.send(error.error);
-  }
-
-})
-
-app.listen(PORT, () => console.log(`start listening on port : ${PORT}`));
