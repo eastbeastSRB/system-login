@@ -6,6 +6,7 @@ dotenv.config();
 import express, { Express } from 'express';
 import config from 'config';
 import router from './routes';
+import dbConnect from './utils/db.config';
 
 // Basic config
 const app: Express = express();
@@ -17,5 +18,5 @@ app.listen(port, () => {
   console.log(`listening on port ${port}`);
 
   //database connection
-  // dbConnect();
+  dbConnect();
 });

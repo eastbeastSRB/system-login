@@ -11,7 +11,6 @@ const appContext =
         query: req.query,
         params: req.params,
       });
-      console.log(true);
       next();
     } catch (error: any) {
       console.log(false, error);

@@ -9,6 +9,7 @@ function SignUp() {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmedPassword, setConfirmedPassword] = useState('')
     const navigate = useNavigate();
 
 
@@ -16,13 +17,14 @@ function SignUp() {
         console.log({ firstName, lastName, email, password })
         event.preventDefault();
         axios
-        .post('/users/v1', { firstName, lastName, email, password })
+        .post('/users/v1', { firstName, lastName, email, password, confirmedPassword })
         .then(() => {
             alert('Registration Successful')
             setFirstName('')
             setLastName('')
             setEmail('')
             setPassword('')
+            setConfirmedPassword('')
             navigate('/login')
         })
         .catch((error: AxiosError) => {
@@ -73,6 +75,15 @@ function SignUp() {
                 placeholder='Password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} />
+                <br />
+                <br />
+                <label>Confirm Password</label>
+                <br />
+                <input className='w-[400px] h-[40px] rounded-xl bg-zinc-700 p-2'
+                type='password'
+                placeholder='Confirm Password'
+                value={confirmedPassword}
+                onChange={(e) => setConfirmedPassword(e.target.value)} />
                 <br />
                 <br />
                 {/* Button */}
