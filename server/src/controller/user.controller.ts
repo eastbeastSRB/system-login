@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserSchema } from '../schema/user.schema';
-// import { createUser } from '../services/user.service';
+import { createUser } from '../services/user.services';
+import UserModel from '../model/user.model';
 
 export async function createUserController(
   req: Request<{}, {}, UserSchema>,
@@ -11,7 +12,14 @@ export async function createUserController(
   console.log('in controller---');
 
   try {
-    // const user = await createUser(body);
+    const userExist: any = await UserModel.findOne({ email: body.email });
+
+    if(userExist) {
+      console.log(userExist);
+      return res.status(400).json({ error: 'User with this email already exist' });
+    }
+
+    const user = await createUser(body);
 
     return res.send('user created');
   } catch (error: any) {
