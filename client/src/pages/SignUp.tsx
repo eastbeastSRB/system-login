@@ -35,7 +35,7 @@ function SignUp() {
   return (
     <div className='w-full h-screen flex'>
         <div className='w-[50%] h-[100%] bg-[#1a1a1a] text-white flex justify-center items-center'>
-            <form className='text-center border rounded-lg w-[600px] h-[400px] p-9'
+            <form className='text-center border rounded-lg w-[600px] h-[550px] p-9'
             onSubmit={handleSubmit}>
                 {/*FirstName Input */}
                 <label>First name</label>

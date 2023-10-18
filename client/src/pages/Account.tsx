@@ -1,6 +1,6 @@
 import React from "react";
 
-function Account() {
+function Profile() {
   return (
     <div className='w-full h-screen bg-[#1a1a1a] text-white flex justify-center items-center'>
       <h2 className='text-3xl'>ACCOUNT</h2>
@@ -8,4 +8,4 @@ function Account() {
   );
 }
 
-export default Account;
+export default Profile;
