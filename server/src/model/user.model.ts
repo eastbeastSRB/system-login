@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema, Model, model } from 'mongoose';
 import { generateNewPassword, hashPassword } from '../utils/auth';
+import { compareSync } from 'bcryptjs';
 // import bcrypt from 'bcrypt';
 
 // Define the user schema
@@ -42,7 +43,8 @@ userSchema.pre<IUserDocument>('save', async function (next) {
   if (!user.isModified('password')) return next();
 
   try {
-    const userPassword = generateNewPassword()
+    // const userPassword = generateNewPassword()
+    const userPassword = user.password
     user.password = hashPassword(userPassword);
 
     return next();
@@ -52,11 +54,11 @@ userSchema.pre<IUserDocument>('save', async function (next) {
 });
 
 // Add a method to validate the password
-// userSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
-//   return bcrypt.compare(password, this.password);
-// };
+userSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
+  return await compareSync(password, this.password);
+};
 
 // Create and export the User model
-const UserModel: Model<IUserDocument> = model('User', userSchema);
+const User: Model<IUserDocument> = model('User', userSchema);
 
-export default UserModel;
+export default User
