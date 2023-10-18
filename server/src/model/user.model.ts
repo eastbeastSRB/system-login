@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema, Model, model } from 'mongoose';
-import { generateNewPassword, hashPassword } from '../utils/auth';
+import { hashPassword } from '../utils/auth';
 import { compareSync } from 'bcryptjs';
 // import bcrypt from 'bcrypt';
 
