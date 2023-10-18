@@ -1,47 +1,36 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // const [userDetails, setUserDetails] = useState({
-  //   name: '',
-  //   password: ''
-  // })
+type LoginInputs = {
+  email: string;
+  password: string;
+};
+
+const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginInputs>();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //     fetchUsers();
-  // }, [])
-
-  // const fetchUsers = () => {
-  //     axios
-  //     .get('http://localhost:3001/register')
-  //     .then((res) => {
-  //         console.log(res.data)
-  //     })
-  // }
-
-  const handleLogin = async (event: any) => {
-    event.preventDefault();
-
-    axios
+  const onSubmit: SubmitHandler<LoginInputs> = async ({ password, email }) => {
+    console.log(password, email);
+    await axios
       .post("/users/v1/auth", {
         email,
         password,
       })
-      .then((response) => {
+      .then((response: AxiosResponse) => {
         const token = response.data.token;
         alert("Login successful");
-        setEmail("");
-        setPassword("");
         navigate("/profile");
         window.location.reload();
         localStorage.setItem("token", token);
         console.log(token);
       })
-      .catch((error: any) => {
+      .catch((error: AxiosError) => {
         console.log("Unable to register user", error);
       });
   };
@@ -67,7 +56,6 @@ function Login() {
                 ></path>
               </svg>
             </div>
-            <h1 className="text-5xl text-gray-800 font-bold">Client Area</h1>
             <p className="w-5/12 mx-auto md:mx-0 text-gray-500">
               Control and monitorize your website data from dashboard.
             </p>
@@ -77,7 +65,7 @@ function Login() {
               <h2 className="text-2xl font-bold text-gray-800 text-left mb-5">
                 Login
               </h2>
-              <form onSubmit={handleLogin} className="w-full">
+              <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                 <div id="input" className="flex flex-col w-full my-5">
                   <label htmlFor="email" className="text-gray-500 mb-2">
                     Email
@@ -87,9 +75,17 @@ function Login() {
                     id="email"
                     placeholder="Please insert your email"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                        message: "Email is not valid.",
+                      },
+                    })}
                   />
+                  {errors.email && (
+                    <p className="errorMsg">{errors.email.message}</p>
+                  )}
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
                   <label htmlFor="password" className="text-gray-500 mb-2">
@@ -100,9 +96,13 @@ function Login() {
                     id="loginPassword"
                     placeholder="Please insert your password"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
                   />
+                  {errors.password && (
+                    <p className="errorMsg">{errors.password.message}</p>
+                  )}
                 </div>
                 <div id="login-btn" className="flex flex-col w-full my-5">
                   <button
@@ -129,20 +129,6 @@ function Login() {
                       <div className="font-bold">Login</div>
                     </div>
                   </button>
-                  {/* <div className="flex justify-evenly mt-5">
-                    <a
-                      href="#"
-                      className="w-full text-center font-medium text-gray-500"
-                    >
-                      Recover password!
-                    </a>
-                    <a
-                      href="#"
-                      className="w-full text-center font-medium text-gray-500"
-                    >
-                      Singup!
-                    </a>
-                  </div> */}
                 </div>
               </form>
             </div>
@@ -151,6 +137,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

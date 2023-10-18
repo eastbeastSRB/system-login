@@ -1,21 +1,34 @@
 import { AxiosError } from "axios";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type Inputs = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmedPassword: string;
+};
 
 const SignUp = () => {
-  // const [users, setUsers] = useState([])
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmedPassword, setConfirmedPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
   const navigate = useNavigate();
 
-  const handleSubmit = (event: any) => {
-    console.log({ firstName, lastName, email, password });
-    event.preventDefault();
-    axios
+  const onSubmit: SubmitHandler<Inputs> = async ({
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmedPassword,
+  }) => {
+    console.log(firstName, lastName, email, password, confirmedPassword);
+
+    await axios
       .post("/users/v1", {
         firstName,
         lastName,
@@ -25,11 +38,6 @@ const SignUp = () => {
       })
       .then(() => {
         alert("Registration Successful");
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPassword("");
-        setConfirmedPassword("");
         navigate("/login");
       })
       .catch((error: AxiosError) => {
@@ -57,7 +65,6 @@ const SignUp = () => {
                 ></path>
               </svg>
             </div>
-            <h1 className="text-5xl text-gray-800 font-bold">Client Area</h1>
             <p className="w-5/12 mx-auto md:mx-0 text-gray-500">
               Control and monitorize your website data from dashboard.
             </p>
@@ -67,19 +74,22 @@ const SignUp = () => {
               <h2 className="text-2xl font-bold text-gray-800 text-left mb-5">
                 Sign up
               </h2>
-              <form onSubmit={handleSubmit} className="w-full">
+              <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                 <div id="input" className="flex flex-col w-full my-5">
                   <label htmlFor="FirstName" className="text-gray-500 mb-2">
                     First name
                   </label>
                   <input
                     type="text"
-                    id="firstName"
                     placeholder="Please insert your first name"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    {...register("firstName", {
+                      required: true,
+                    })}
                   />
+                  {errors.firstName && (
+                    <p className="errorMsg"> First name is required</p>
+                  )}
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
                   <label htmlFor="LastName" className="text-gray-500 mb-2">
@@ -87,25 +97,35 @@ const SignUp = () => {
                   </label>
                   <input
                     type="text"
-                    id="lastName"
                     placeholder="Please insert your last name"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    {...register("lastName", {
+                      required: true,
+                    })}
                   />
+                  {errors.lastName && (
+                    <p className="errorMsg"> Last name is required</p>
+                  )}
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
                   <label htmlFor="email" className="text-gray-500 mb-2">
                     Email
                   </label>
                   <input
-                    type="email"
-                    id="email"
+                    type="text"
                     placeholder="Please insert your email"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                        message: "Email is not valid.",
+                      },
+                    })}
                   />
+                  {errors.email && (
+                    <p className="errorMsg">{errors.email.message}</p>
+                  )}
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
                   <label htmlFor="password" className="text-gray-500 mb-2">
@@ -113,12 +133,19 @@ const SignUp = () => {
                   </label>
                   <input
                     type="password"
-                    id="password"
                     placeholder="Please insert your password"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password should be at-least 6 characters.",
+                      },
+                    })}
                   />
+                  {errors.password && (
+                    <p className="errorMsg">{errors.password.message}</p>
+                  )}
                 </div>
                 <div id="input" className="flex flex-col w-full my-5">
                   <label
@@ -129,12 +156,17 @@ const SignUp = () => {
                   </label>
                   <input
                     type="password"
-                    id="confirmedPassword"
                     placeholder="Please confirm your password"
                     className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
-                    value={confirmedPassword}
-                    onChange={(e) => setConfirmedPassword(e.target.value)}
+                    {...register("confirmedPassword", {
+                      required: "Password confirmation is required",
+                    })}
                   />
+                  {errors.confirmedPassword && (
+                    <p className="errorMsg">
+                      {errors.confirmedPassword.message}
+                    </p>
+                  )}
                 </div>
                 <div id="signup-button" className="flex flex-col w-full my-5">
                   <button
