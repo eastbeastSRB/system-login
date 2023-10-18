@@ -53,12 +53,13 @@ export async function loginUserController(
   console.log('LOGIN CONTROLER')
 
   if(user && await user.validatePassword(password)){
-    generateToken(res, user._id);
+    const token = generateToken(res, user._id);
     res.status(201).json({
       _id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
-      email: user.email
+      email: user.email,
+      token: token,
     })
   } else {
     // res.status(401);

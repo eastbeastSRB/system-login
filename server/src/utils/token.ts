@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const generateToken = (res: any, userId: number | string) => {
+const generateToken = (res: any, userId: number | string): string => {
   const token = jwt.sign({ userId }, 'abc123', {
     expiresIn: '30d',
   });
@@ -11,6 +11,8 @@ const generateToken = (res: any, userId: number | string) => {
     sameSite: 'strict',
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
+
+  return token;
 };
 
 export default generateToken;

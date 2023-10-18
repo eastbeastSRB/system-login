@@ -28,7 +28,6 @@ const Login = () => {
         navigate("/profile");
         window.location.reload();
         localStorage.setItem("token", token);
-        console.log(token);
       })
       .catch((error: AxiosError) => {
         console.log("Unable to register user", error);
