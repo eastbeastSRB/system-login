@@ -3,6 +3,7 @@ import { UserSchema } from '../schema/user.schema';
 import { createUser } from '../services/user.services';
 import User from '../model/user.model';
 import generateToken from '../utils/token';
+import { IUser } from '../schema/user.schema';
 
 // Create a new user
 // POST /users/v1
@@ -16,7 +17,6 @@ export async function createUserController(
     const userExist: any = await User.findOne({ email: body.email });
 
     if(userExist) {
-      console.log(userExist, 'OPET OVDE USHO(???)');
       return res.status(400).json({ error: 'User with this email already exist' });
     }
     const user = await createUser(body);
@@ -82,6 +82,28 @@ export async function logoutUserController(
 // Get user
 // GET /users/v1/profile
 export async function getLoggedUserController(
-  req: Request<{}, {}, UserSchema>,
+  req: Request<{}, {}, IUser>,
   res: Response,
-) {}
+) {
+  console.log('User logged successfully.....  ')
+  const user = {
+    _id: req.body._id,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email
+  }
+  res.status(200).json({message: 'congrats'})
+  // const user = await User.findById(req.user._id);
+
+  // if (user) {
+  //   res.json({
+  //     _id: user._id,
+  //     firstName: user.firstName,
+  //     lastName: user.lastName,
+  //     email: user.email,
+  //   });
+  // } else {
+  //   res.status(404);
+  //   throw new Error('User not found');
+  // }
+}
