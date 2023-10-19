@@ -1,3 +1,4 @@
+import App from "./App.tsx";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
@@ -6,12 +7,10 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-
-import App from "./App.tsx";
-import "./styles/index.css";
 import {store} from './store/store.ts';
-// import { Provider } from 'react-redux';
 import { Provider } from "react-redux";
+
+import "./styles/index.css";
 
 // Pages
 import Home from "./pages/Home";
@@ -26,9 +25,6 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/profile" element={<Profile />} />
-      {/* <Route path='' element={<PrivateRoute />}>
-        <Route path='/profile' element={<ProfileScreen />} />
-      </Route> */}
     </Route>
   )
 );

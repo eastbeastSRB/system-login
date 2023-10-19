@@ -1,13 +1,11 @@
 import mongoose from 'mongoose';
-import config from 'config';
-
-// import log from './logger';
 
 async function dbConnect() {
-  const dbUri = config.get<string>('dbUri');
+  const defaultUri: string = 'mongodb://localhost:27017/login-system'
+  const mongoUri = process.env.MONGO_URI || defaultUri
 
   try {
-    await mongoose.connect(dbUri);
+    await mongoose.connect(mongoUri);
     console.log('connection to DB successfully');
   } catch (error) {
     process.exit(1);

@@ -29,7 +29,7 @@ export async function createUserController(
         lastName: user.lastName,
         email: user.email
       })
-      // return res.send('user created')
+      res.status(400);
     };
 
   } catch (error: any) {
@@ -60,7 +60,6 @@ export async function loginUserController(
       token: token,
     })
   } else {
-    // res.status(401);
     return res.status(401).json({ error: 'Password or email are invalid' });
   }
 }

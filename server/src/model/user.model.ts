@@ -1,7 +1,6 @@
 import mongoose, { Document, Schema, Model, model } from 'mongoose';
 import { hashPassword } from '../utils/auth';
 import { compareSync } from 'bcryptjs';
-// import bcrypt from 'bcrypt';
 
 // Define the user schema
 export interface IUserDocument extends Document {
@@ -43,7 +42,6 @@ userSchema.pre<IUserDocument>('save', async function (next) {
   if (!user.isModified('password')) return next();
 
   try {
-    // const userPassword = generateNewPassword()
     const userPassword = user.password
     user.password = hashPassword(userPassword);
 

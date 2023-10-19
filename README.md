@@ -65,7 +65,7 @@ The project has the following folder structure:
 - **Tailwind CSS**: Used for styling and design.
 - **React Router**: Provides routing for the application.
 - **React Hook Form**: Used for form validation.
-- **Context API**: Used for state management.
+- **Redux**: Used for state management.
 - **Axios**: Used for making HTTP requests.
 - **ESLint and Prettier**: Ensuring code quality and style consistency.
 
@@ -100,10 +100,11 @@ To run the application, follow these steps:
 2. Configure environment variables and settings as needed inside .env file.
 
 3. Install dependencies for both the client and server
-   cd client
-   npm install
-   cd ../server
-   npm install
+   **cd client**
+   **npm install**
+
+   **cd ../server**
+   **npm install**
 
 **but also install dependencies in root folder because of concurrently package and possibility to run application (FE + BE) with one script**
 

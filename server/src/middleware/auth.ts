@@ -11,7 +11,7 @@ const protect = (async (req:any, res:any, next:any) => {
 
   if (token) {
     try {
-      const decoded: JwtPayload = jwt.verify(token, 'abc123') as JwtPayload;
+      const decoded: JwtPayload = jwt.verify(token, process.env.JWT_SECRET ?? 'abc123' ) as JwtPayload;
 
       req.user = await User.findById(decoded.userId).select('-password');
 

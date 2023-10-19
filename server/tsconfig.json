@@ -20,6 +20,6 @@
     // "typeRoots": ["./types"],
     // "types": ["node", "jest"]
   },
-  "include": ["src"],
+  "include": ["src", "config/db.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
