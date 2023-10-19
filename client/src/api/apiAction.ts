@@ -1,9 +1,12 @@
 import axios from "axios";
 // import { api } from "./api";
 
-const authApiUrl = `localhost:5000/users/v1/auth`;
-const userApiUrl = `localhost:5000/users/v1/`;
+export const userApiUrl = '/users/v1';
+export const authApiUrl = '/users/v1/auth';
+export const logoutApiUrl = '/users/v1/logout'
 
+
+// didn't used this methods, some idea how it can be structured when app start to grow
 export const apiUser = async (params: any = {}) => {
   try {
     return await axios.get(`${userApiUrl}`, params);

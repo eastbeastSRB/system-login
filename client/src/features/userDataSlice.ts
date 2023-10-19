@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface IUserState {
-  token: string | null;
-  firstName?: string;
-  lastName?: string;
-}
+import { IUserState  } from '../types/user.interface';
 
 const initialState: IUserState = {
   token: null,
@@ -23,9 +18,10 @@ export const userDataSlice = createSlice({
       state.token = action.payload;
     },
     setUser: (state: any, action: any) => {
-
       state.firstName = action.payload.firstName;
       state.lastName = action.payload.lastName;
+      /*** didn't cover all user attr values, for assignment purpose get only first and last name
+       * in order to show it on profile page ***/
     }
   },
 });

@@ -2,8 +2,8 @@ import { apiAuth, apiUser } from "../../api/apiAction";
 
 export const authUser = (email: string, password: string) => {
   const userData = {
-    Email: email,
-    Password: password,
+    email: email,
+    password: password,
   };
   return apiAuth(userData);
 };

@@ -2,25 +2,28 @@ import axios, {AxiosError} from "axios";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../hooks/useRedux";
 import { RootState } from "../store/store";
+import { useNavigate } from "react-router-dom";
+import { logoutApiUrl } from "../api/apiAction";
 
 const Navbar = () => {
   // const[isLogged, setLoginStatus] = useState(false)
+  // don't work
+  // if (user)  setLoginStatus(true);
+  const navigate = useNavigate();
   const user = useAppSelector((state: RootState) => state.userData);
 
   const handleLogout = async () => {
     await axios
-      .post("/users/v1/logout")
+      .post(logoutApiUrl)
       .then(() => {
         localStorage.removeItem("token");
-        window.location.href = '/login';
+        alert("Logout successful");
+        navigate('/login')
       })
       .catch((error: AxiosError) => {
         console.log("Something went wrong", error);
       });
   }
-
-  // don't work
-  // if (user)  setLoginStatus(true);
 
   return (
     <nav className="flex justify-around p-3 borber-b border-zinc-800 items-center bg-[#1a1a1a]/90 text-zinc-300">
