@@ -23,7 +23,6 @@ export const userDataSlice = createSlice({
       state.token = action.payload;
     },
     setUser: (state: any, action: any) => {
-      console.log('SET USER METHOD', action.payload.firstName, state)
 
       state.firstName = action.payload.firstName;
       state.lastName = action.payload.lastName;

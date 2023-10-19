@@ -7,19 +7,13 @@ interface JwtPayload {
 
 const protect = (async (req:any, res:any, next:any) => {
   let token;
-
   token = req.cookies.jwt;
-
-  console.log(token, 'TOKEN IN COOKIE')
-  console.log(req);
 
   if (token) {
     try {
       const decoded: JwtPayload = jwt.verify(token, 'abc123') as JwtPayload;
 
       req.user = await User.findById(decoded.userId).select('-password');
-
-      console.log('AUTH HELPER', req.user)
 
       next();
     } catch (error) {

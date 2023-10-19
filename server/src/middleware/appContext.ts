@@ -4,7 +4,6 @@ import { AnyZodObject } from 'zod';
 const appContext =
   (schema: AnyZodObject) =>
   (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body, 'BODY IN CONTEXT')
     try {
       schema.parse({
         body: req.body,
@@ -13,7 +12,6 @@ const appContext =
       });
       next();
     } catch (error: any) {
-      console.log(false, error);
       return res.status(400).send(error.errors);
     }
   };

@@ -26,7 +26,6 @@ const SignUp = () => {
     password,
     confirmedPassword,
   }) => {
-    console.log(firstName, lastName, email, password, confirmedPassword);
 
     await axios
       .post("/users/v1", {

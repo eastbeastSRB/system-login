@@ -19,7 +19,6 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<LoginInputs> = async ({ password, email }) => {
-    console.log(password, email);
     await axios
       .post("/users/v1/auth", {
         email,
@@ -29,12 +28,11 @@ const Login = () => {
         const token = response.data.token;
         alert("Login successful");
         navigate("/profile");
-        console.log('before dispatch', response)
         dispatch(setUser(response.data));
         localStorage.setItem("token", token);
       })
       .catch((error: AxiosError) => {
-        console.log("Unable to register user", error);
+        console.log("Unable to login", error);
       });
   };
 
