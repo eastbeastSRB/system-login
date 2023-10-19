@@ -9,8 +9,9 @@ import {
 
 import App from "./App.tsx";
 import "./styles/index.css";
-// import store from './store.ts';
+import {store} from './store/store.ts';
 // import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 
 // Pages
 import Home from "./pages/Home";
@@ -32,8 +33,11 @@ const router = createBrowserRouter(
   )
 );
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+     <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

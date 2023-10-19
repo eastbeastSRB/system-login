@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/userDataSlice";
 
 type LoginInputs = {
   email: string;
@@ -14,6 +16,7 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginInputs>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<LoginInputs> = async ({ password, email }) => {
     console.log(password, email);
@@ -26,7 +29,8 @@ const Login = () => {
         const token = response.data.token;
         alert("Login successful");
         navigate("/profile");
-        window.location.reload();
+        console.log('before dispatch', response)
+        dispatch(setUser(response.data));
         localStorage.setItem("token", token);
       })
       .catch((error: AxiosError) => {
